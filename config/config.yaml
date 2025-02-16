@@ -1,0 +1,15 @@
+env: "local"
+postgres:
+  host: "localhost"
+  port: 5432
+  user_name: ""
+  user_pass: ""
+  db_name: tg-queue
+amqp:
+  host: "localhost"
+  port: 5672
+  user_name: ""
+  user_pass: ""
+  queue: temp-test
+  exchange: test-ex
+  routing_key: test-key
