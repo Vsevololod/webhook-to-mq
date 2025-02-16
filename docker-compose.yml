@@ -1,0 +1,18 @@
+services:
+  webhook-to-mq:
+    container_name: webhook-to-mq
+    hostname: webhook-to-mq
+    image: webhook-to-mq
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VERSION: "${VERSION}"
+        GIT_COMMIT: "${COMMIT_HASH}"
+        BUILD_TIME: "${BUILD_TIME}"
+    environment:
+      - CONFIG_PATH=/app/data/config.yaml
+    volumes:
+      - ./config/config.yaml:/app/data/config.yaml
+    ports:
+      - "8282:8080"
