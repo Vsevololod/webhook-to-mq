@@ -23,15 +23,16 @@ func main() {
 	log := setupLogger(cfg.Env)
 
 	rabbitURL := os.Getenv(cfg.AmqpConf.GetAmqpUri())
+	log.Info("Try to connect to uri=" + rabbitURL)
 	rabbitConn, err := amqp091.Dial(rabbitURL)
 	if err != nil {
-		log.Error("Failed to connect to RabbitMQ: %v", sl.Err(err))
+		log.Error("Failed to connect to RabbitMQ:", sl.Err(err))
 	}
 	defer rabbitConn.Close()
 
 	ch, err := rabbitConn.Channel()
 	if err != nil {
-		log.Error("Failed to open a channel: %v", sl.Err(err))
+		log.Error("Failed to open a channel:", sl.Err(err))
 	}
 	defer ch.Close()
 
@@ -46,7 +47,7 @@ func main() {
 		nil,
 	)
 	if err != nil {
-		log.Error("Failed to declare exchange: %v", sl.Err(err))
+		log.Error("Failed to declare exchange:", sl.Err(err))
 	}
 
 	r := chi.NewRouter()
@@ -80,7 +81,7 @@ func main() {
 
 	log.Info("Starting webhook service on :8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
-		log.Error("Server failed: %v", sl.Err(err))
+		log.Error("Server failed:", sl.Err(err))
 	}
 }
 
